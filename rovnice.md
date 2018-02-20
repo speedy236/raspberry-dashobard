@@ -1,2 +1,2 @@
 ### Palivoměr
-\frac{100y}{x} = z
+$$ \frac{100y}{x} = z $$
