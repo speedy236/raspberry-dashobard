@@ -118,7 +118,7 @@ while(true){
 
     if($data['truck']['engineOn']){
         addToQ(1, 10, fuelRAngle(fuelAngle(fuelPercent($data['truck']['fuelCapacity'], $data['truck']['fuel']))));
-        if(($t % 20) == 0){
+        if(($t % 10) == 0){
             addToQ(2, 18, rpmRAngle(rpmAngle(rpmPercent($data['truck']['engineRpmMax'], $data['truck']['engineRpm']))));
         }
         //execQ();
