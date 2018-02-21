@@ -17,6 +17,12 @@ $motorPins = [[12, 16, 20, 21], [1, 7, 8, 25], [27, 22, 4, 17], [26, 19, 13, 6]]
 // Stejné pořadí jako u pinů
 $angles = [0, 0, 0, 0];
 
+// Měla by vrátit potřebnou rotaci pro dosažení nuly
+// Je potřeba otestovat
+function zeroAngle($motor){
+  return 0 - $angles[$motor];
+}
+
 $queue = array();
 
 //Přidání do fronty pro paralelní spuštění všech motorů
@@ -90,6 +96,9 @@ while(true){
 
     if($data['truck']['engineOn']){
         addToQ(1, 10, fuelRAngle(fuelAngle(fuelPercent($data['truck']['fuelCapacity'], $data['truck']['fuel']))));
+        // Speedometr
+        // Otackomer
+        // Olej
         execQ();
     }else{
         if($angles[1] != 0){
