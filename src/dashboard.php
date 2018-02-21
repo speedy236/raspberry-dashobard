@@ -131,7 +131,7 @@ while(true){
         if($angles[2] != 0){
             $rotation = 0 - $angles[2];
             $angles[2] = 0;
-            addToQ(2, 10, $rotation);
+            addToQ(2, 18, $rotation);
             //execQ();
         }
     }
