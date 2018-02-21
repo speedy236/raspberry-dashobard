@@ -118,7 +118,9 @@ while(true){
 
     if($data['truck']['engineOn']){
         addToQ(1, 10, fuelRAngle(fuelAngle(fuelPercent($data['truck']['fuelCapacity'], $data['truck']['fuel']))));
-        addToQ(2, 18, rpmRAngle(rpmAngle(rpmPercent($data['truck']['engineRpmMax'], $data['truck']['engineRpm']))));
+        if(($t % 20) == 0){
+            addToQ(2, 18, rpmRAngle(rpmAngle(rpmPercent($data['truck']['engineRpmMax'], $data['truck']['engineRpm']))));
+        }
         //execQ();
     }else{
         if($angles[1] != 0){
@@ -136,6 +138,7 @@ while(true){
         }
     }
     execQ();
+    $t++;
 
     //echo 'Rychlost: ' . round($data['truck']['speed']) . ' km/h' . PHP_EOL;
 
