@@ -17,12 +17,6 @@ $motorPins = [[12, 16, 20, 21], [1, 7, 8, 25], [27, 22, 4, 17], [26, 19, 13, 6]]
 // Stejné pořadí jako u pinů
 $angles = [0, 0, 0, 0];
 
-// Měla by vrátit potřebnou rotaci pro dosažení nuly
-// Je potřeba otestovat
-function zeroAngle($motor){
-  return 0 - $angles[$motor];
-}
-
 $queue = array();
 
 //Přidání do fronty pro paralelní spuštění všech motorů
@@ -35,7 +29,7 @@ function addToQ($motor, $rpm, $angle){
 function execQ(){
     global $queue;
     $command = '';
-    
+
     foreach($queue as $value){
         $command = $command . ' ' . $value;
     }
@@ -48,7 +42,7 @@ function execQ(){
 }
 
 /*
-  ______          _ 
+  ______          _
  |  ____|        | |
  | |__ _   _  ___| |
  |  __| | | |/ _ \ |
@@ -87,7 +81,7 @@ function fuelRAngle($newAngle){
     global $angles;
     $result = $newAngle - $angles[1];
     $angles[1] = ceil($newAngle);
-    return ceil($result);    
+    return ceil($result);
 }
 
 // --------------------------------------------------
@@ -124,15 +118,8 @@ while(true){
 
     if($data['truck']['engineOn']){
         addToQ(1, 10, fuelRAngle(fuelAngle(fuelPercent($data['truck']['fuelCapacity'], $data['truck']['fuel']))));
-<<<<<<< HEAD
         addToQ(2, 10, rpmRAngle(rpmAngle(rpmPercent($data['truck']['engineRpmMax'], $data['truck']['engineRpm']))));
         //execQ();
-=======
-        // Speedometr
-        // Otackomer
-        // Olej
-        execQ();
->>>>>>> 89380fc67d4620ec6edca966135fe34768d2c149
     }else{
         if($angles[1] != 0){
             $rotation = 0 - $angles[1];
@@ -149,7 +136,7 @@ while(true){
         }
     }
     execQ();
-    
+
     //echo 'Rychlost: ' . round($data['truck']['speed']) . ' km/h' . PHP_EOL;
 
     //echo 'Speed: ' . round($data['truck']['speed']) . 'km/h' . ' RPM: ' . $data['truck']['engineRpm'] . ' Palivo: ' . $data['truck']['fuel'] . ' / ' . $data['truck']['fuelCapacity'] . ' l' . PHP_EOL;
@@ -162,7 +149,7 @@ while(true){
     }else{
         if($leftOn == 1){
             shell_exec('/usr/local/bin/gpio write 4 0');
-            $leftOn = 0;    
+            $leftOn = 0;
         }
     }
     *//*
@@ -181,7 +168,7 @@ while(true){
             usleep(10000);
         }
 
-    
+
     $t++;
     */
 }
