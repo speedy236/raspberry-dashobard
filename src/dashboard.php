@@ -52,22 +52,31 @@ function execQ(){
 // --------------------------------------------------
 // Syntaxe: fuelRAngle(fuelAngle(fuelPercent(Kapacita, Aktualni)));
 
-//Vrati procenta zbyvajiciho paliva
+/**
+ * @param int $capacity Celková kapacita nádrže
+ * @param float $current Aktuální počet litrů v nádrži
+ * @return float|int Procenta zbývajícího paliva
+ */
 function fuelPercent($capacity, $current){
     if($capacity != 0){
         return ($current * 100) / $capacity;
     }else{
         return 0;
     }
-    
 }
 
-//Pocet stupnu od nuly po smeru hodinovych rucicek
+/**
+ * @param float $percent Procenta nádrže
+ * @return float|int Rotace ve stupních od nuly
+ */
 function fuelAngle($percent){
     return (9 / 10) * $percent;
 }
 
-// Vypočítá potřebnou rotaci (ve stupních) k dosažení správné ukazované hodnoty, nastaví zadaný úhel jako aktuální
+/**
+ * @param float $newAngle Absolutní úhel
+ * @return float Relativní úhel
+ */
 function fuelRAngle($newAngle){
     global $angles;
     $result = $newAngle - $angles[1];
@@ -76,6 +85,25 @@ function fuelRAngle($newAngle){
 }
 
 // --------------------------------------------------
+
+function rpmPercent($maxRPM, $currentRPM){
+    if($maxRPM != 0){
+        return (100 / $maxRPM) * $currentRPM;
+    }else{
+        return 0;
+    }
+}
+
+function rpmAngle($percent){
+    return (27 / 10) * $percent;
+}
+
+function rpmRAngle($newAngle){
+    global $angles;
+    $result = $newAngle - $angles[2];
+    $angles[2] = ceil($newAngle);
+    return ceil($result);
+}
 
 
 $cs = 0;
@@ -90,15 +118,24 @@ while(true){
 
     if($data['truck']['engineOn']){
         addToQ(1, 10, fuelRAngle(fuelAngle(fuelPercent($data['truck']['fuelCapacity'], $data['truck']['fuel']))));
-        execQ();
+        addToQ(2, 10, rpmRAngle(rpmAngle(rpmPercent($data['truck']['engineRpmMax'], $data['truck']['engineRpm']))));
+        //execQ();
     }else{
         if($angles[1] != 0){
             $rotation = 0 - $angles[1];
             $angles[1] = 0;
             addToQ(1, 10, $rotation);
-            execQ();
+            //execQ();
+        }
+
+        if($angles[2] != 0){
+            $rotation = 0 - $angles[2];
+            $angles[2] = 0;
+            addToQ(2, 10, $rotation);
+            //execQ();
         }
     }
+    execQ();
     
     //echo 'Rychlost: ' . round($data['truck']['speed']) . ' km/h' . PHP_EOL;
 
